@@ -23,7 +23,7 @@ See [Example 2: Using a Cluster](../examples/Example2.md)
 Once you have created a Parser, you can parse the arguments using the following:
 
 ```python
-results = parser.parse();
+results = parser.parse()
 ```
 
 The results of the parser execution will be stored in the array `results` and the `.is_valid()` flag will be set.
