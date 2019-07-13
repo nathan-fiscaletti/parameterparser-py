@@ -44,10 +44,10 @@ if not parser.is_valid():
         "Parameter Parser",
         "An advanced parameter parser for PHP",
         "v1.0.0"
-    );
+    )
 else:
     # Retrieve the name from the results
-    name = results['name'];
+    name = results['name']
 
     # Output the name
     print("Your name is " . name . os.linesep)
