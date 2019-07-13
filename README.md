@@ -24,7 +24,7 @@ from parameterparser import Parameter, Cluster, Parser
 parameters = Cluster()
 
 # Add a Parameter to the Cluster
-parameter = Parameter("-", "name", lambda name: name);
+parameter = Parameter("-", "name", lambda name: name)
 
 parameter.set_required(True)\
          .set_description("Your name.")
