@@ -6,6 +6,13 @@
 
 #### Supports Python 2.7+
 
+[![PyPI version](https://badge.fury.io/py/parameterparser.svg)](https://badge.fury.io/py/parameterparser)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/parameterparser.svg)
+[![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/parameterparser-py.svg)](https://github.com/nathan-fiscaletti/parameterparser-py/issues)
+[![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/parameterparser-py.svg)](https://github.com/nathan-fiscaletti/parameterparser-py/stargazers)
+![PyPI - License](https://img.shields.io/pypi/l/parameterparser.svg)
+
+
 [Documentation](./docs/) - [Advanced Code Examples](./examples/readme.md)
 
 ### Features
