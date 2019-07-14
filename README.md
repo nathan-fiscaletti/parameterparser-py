@@ -2,7 +2,8 @@
 
 > **Parameter Parser** is a simple library used to parse intricate parameters from an array of strings.
 
-> There is a PHP Version of this library available [here](https://github.com/nathan-fiscaletti/parameterparser)!
+> **Hint:** This package is available through `Python PIP`.
+> `pip install parameterparser` 
 
 #### Supports Python 2.7+
 
@@ -12,8 +13,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/parameterparser-py.svg)](https://github.com/nathan-fiscaletti/parameterparser-py/stargazers)
 ![PyPI - License](https://img.shields.io/pypi/l/parameterparser.svg)
 
-
-[Documentation](./docs/) - [Advanced Code Examples](./examples/readme.md)
+[Documentation](./docs/) - [Advanced Code Examples](./examples/readme.md) - [Looking for the PHP version?](https://github.com/nathan-fiscaletti/parameterparser)
 
 ### Features
 * Parse command line parameters.
