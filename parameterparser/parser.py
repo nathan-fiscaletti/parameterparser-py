@@ -5,6 +5,19 @@ from parameterparser.exception import ParseException
 
 
 class Parser:
+    """
+    Class used for parsing a string of parameters based on
+    a Cluster provided and the parameters defined within.
+
+    Attributes:
+        :var argv: The string of parameters
+        :var valid: Whether or not this Parser is valid.
+        :var error_handler: The error handler.
+        :var halted_by: The parameter that halted this Parser, if any.
+        :var cursor: The Cursor used for parsing the string.
+        :var results: The results that have been accumulated after a parse.
+        :var invalid_param: The parameter that invalidated this parser, if any.
+    """
     argv = []
     cluster = None
     valid = True
@@ -12,13 +25,34 @@ class Parser:
     halted_by = None
     cursor = 0
     results = {}
-    invalid_param= None
+    invalid_param = None
 
-    def __init__(self, argv=None, cluster = None):
+    def __init__(self, argv=None, cluster=None):
+        """
+        Initialize the Parser.
+        :param argv:    The string array to parse.
+        :param cluster: The Cluster.
+        """
         self.cluster = Cluster()
         self.initialize(argv, cluster)
 
+    def parse(self, argv=None, cluster=None):
+        """
+        Parse the array of strings and retrieve the results.
+        :param argv:    The array of strings.
+        :param cluster: The Cluster
+        :return:        The results.
+        """
+        self.initialize(argv, cluster)
+        self.check_validity_and_continue_parse()
+        return self.results
+
     def initialize(self, argv, cluster):
+        """
+        Initialize the Parser.
+        :param argv:    The string array to parse.
+        :param cluster: The Cluster.
+        """
         self.valid = True
         # noinspection PyTypeChecker
         self.halted_by = None
@@ -34,6 +68,10 @@ class Parser:
             self.preload_parameters(argv[:])
 
     def preload_aliases(self):
+        """
+        Load the Aliases for the cluster into their own
+        Parameter Objects so that they can properly be parsed.
+        """
         dict_copy = dict(self.cluster.prefixes)
         for prefix in dict_copy.keys():
             parameters = dict_copy[prefix]
@@ -46,6 +84,11 @@ class Parser:
                     self.cluster.add(alias_param)
 
     def preload_parameters(self, argv):
+        """
+        Preload the string of parameters to be parsed by joining
+        entries that exist between quotes into their own single entry.
+        :param argv: The array of strings.
+        """
         argv.pop(0)
         self.argv = []
         if len(argv) > 0:
@@ -61,6 +104,12 @@ class Parser:
                 parsed = argv.pop(0) if len(argv) > 0 else None
 
     def parse_quote(self, argv, parameter_str, quote_type):
+        """
+        Parse all data between two matching quotes of type quote_type.
+        :param argv:          The array of Strings.
+        :param parameter_str: The initial string.
+        :param quote_type:    The quote type (" or ')
+        """
         if parameter_str[-1:] == quote_type:
             self.argv.append(parameter_str[1:-1])
         else:
@@ -73,12 +122,10 @@ class Parser:
                 if parsed_part is not None:
                     self.argv[len(self.argv) - 1] += " " + parsed_part[0:-1]
 
-    def parse(self, argv=None, cluster=None):
-        self.initialize(argv, cluster)
-        self.check_validity_and_continue_parse()
-        return self.results
-
     def check_validity_and_continue_parse(self):
+        """
+        Verify that all required parameters exist and continue parsing.
+        """
         if not self.validate_required():
             error = ParseException(
                 "Missing required argument: " + self.invalid_param.name,
@@ -94,6 +141,10 @@ class Parser:
             self.parse_every()
 
     def validate_required(self):
+        """
+        Verify that all required parameters exist within the array of strings.
+        :return: True if all required parameters exist, false otherwise.
+        """
         result = True
         for prefix in self.cluster.prefixes.keys():
             parameters = self.cluster.prefixes[prefix]
@@ -111,12 +162,20 @@ class Parser:
         return result
 
     def parse_every(self):
+        """
+        Parse each parameter from the array of strings.
+        """
         while self.cursor < len(self.argv):
             parameter_str = self.argv[self.cursor]
             if not self.parse_single(parameter_str):
                 break
 
     def parse_single(self, parameter_str):
+        """
+        Parse a Single parameter from the array of strings.
+        :param parameter_str: The parameter string to parse.
+        :return: False if a parameter was invalid or the parser was halted.
+        """
         if self.prefix_exists(parameter_str):
             parameter = self.get_parameter(parameter_str)
             if parameter is not None:
@@ -150,6 +209,11 @@ class Parser:
         return True
 
     def parse_uniadic(self, parameter, count):
+        """
+        Parse a Uniadic parameter and increment the cursor.
+        :param parameter: The parameter.
+        :param count:     The number of arguments.
+        """
         closure_arguments = []
         current_argument = 0
         while current_argument < count and len(self.argv) > (self.cursor + 1):
@@ -175,10 +239,11 @@ class Parser:
                 raise error
         self.increment_cursor()
 
-    def increment_cursor(self):
-        self.cursor += 1
-
     def parse_variadic(self, parameter):
+        """
+        Parse a variadic parameter and increment the cursor.
+        :param parameter: The parameter.
+        """
         self.increment_cursor()
         closure_arguments = []
         available = len(self.argv) >= self.cursor
@@ -210,21 +275,47 @@ class Parser:
                 raise error
 
     def respond_default(self, parameter_str):
+        """
+        Respond with the default handler.
+        :param parameter_str: The parameter string.
+        """
         param_result = self.cluster.default(parameter_str)
         if param_result == -1:
             self.valid = False
         self.results[parameter_str] = param_result
         self.increment_cursor()
 
+    def increment_cursor(self):
+        """
+        Increment the cursor.
+        """
+        self.cursor += 1
+
     def get_closure(self, parameter_str):
+        """
+        Retrieve a closure for a Parameter matching a string parameter.
+        :param parameter_str: The string parameter.
+        :return: The closure.
+        """
         parameter = self.get_parameter(parameter_str)
         return parameter.closure
 
     def get_real_name(self, parameter_str):
+        """
+        Get the real name for a parameter based on a string parameter. If the
+        parameter found has a parent, the parent name will be returned.
+        :param parameter_str: The string parameter.
+        :return: The real name.
+        """
         parameter = self.get_parameter(parameter_str)
         return parameter.name if not parameter.has_parent() else parameter.parent.name
 
     def get_parameter(self, parameter_str):
+        """
+        Retrieve a Parameter based on a parameter string.
+        :param parameter_str: The parameter string.
+        :return: The parameter.
+        """
         last_prefix = None
         parameter_parsed = None
         for prefix in self.cluster.prefixes.keys():
@@ -239,9 +330,20 @@ class Parser:
         return None
 
     def prefix_exists(self, parameter_str):
+        """
+        Check if the prefix for a string parameter exists in the cluster.
+        :param parameter_str: The parameter string
+        :return: True if it exists, false otherwise.
+        """
         return self.get_prefix(parameter_str) is not None
 
     def get_prefix(self, parameter_str):
+        """
+        Retrieve a prefix for a parameter that exists in our cluster
+        based on a string parameter.
+        :param parameter_str: The string parameter.
+        :return: The prefix, or None
+        """
         last_prefix = None
         for prefix in self.cluster.prefixes.keys():
             if parameter_str[:len(prefix)] == prefix:
@@ -253,13 +355,25 @@ class Parser:
         return last_prefix
 
     def set_error_handler(self, handler):
+        """
+        Set the error handler.
+        :param handler: The error handler.
+        :return: This parser.
+        """
         self.error_handler = handler
+        return self
 
     def set_default(self, default):
+        """
+        Set the default handler.
+        :param default: The handler.
+        :return: This parser.
+        """
         self.cluster.set_default(default)
 
     def is_valid(self):
+        """
+        Check if this parser is valid.
+        :return: True if it's valid, False otherwise.
+        """
         return self.valid
-
-    def get_halted_by_name(self):
-        return "" if self.halted_by is None else self.halted_by.name

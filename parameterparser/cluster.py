@@ -4,31 +4,69 @@ from parameterparser.usage_style import UsageStyle
 
 
 class Cluster:
+    """
+    Class for representing a Cluster of Parameters
+
+    Attributes:
+        :var prefixes: The map of prefixes and parameters.
+        :var default:  The default handler for unknown parameters.
+    """
     prefixes = {}
     default = None
 
     def __init__(self):
+        """
+        Initialize the Cluster.
+        """
         self.default = lambda param: -1
 
     def add(self, parameter):
+        """
+        Add a Parameter to the cluster.
+        :param parameter: The Parameter
+        :return:          The cluster following the Fluent design pattern.
+        """
         if parameter.prefix not in self.prefixes.keys():
             self.prefixes[parameter.prefix] = dict()
         self.prefixes[parameter.prefix][parameter.name] = parameter
         return self
 
     def remove(self, prefix, name):
+        """
+        Remove a Parameter from the Cluster.
+        :param prefix: The Prefix.
+        :param name:   The Name.
+        :return:       The cluster following the Fluent design pattern.
+        """
         del self.prefixes[prefix][name]
         return self
 
     def add_many(self, parameters):
+        """
+        Add a list of Parameters to the Cluster.
+        :param parameters: The parameters.
+        :return:           The cluster following the Fluent design pattern.
+        """
         for parameter in parameters:
             self.add(parameter)
         return self
 
     def set_default(self, default):
+        """
+        Set the Default handler for the Cluster.
+        :param default: The handler.
+        :return:        The cluster following the Fluent design pattern.
+        """
         self.default = default
+        return self
 
     def get_usage(self, required_first=False, custom_binary=None):
+        """
+        Retrieve the Usage for this Cluster as a String.
+        :param required_first: Place the Required parameters first.
+        :param custom_binary:  The custom Binary to use.
+        :return:               The usage for this Cluster as a String.
+        """
         if custom_binary is None:
             full_usage = "python " + os.path.basename(sys.argv[0]) + " "
         else:
@@ -48,6 +86,16 @@ class Cluster:
     def print_full_usage(self, app_name, description, app_version=None,
                          custom_binary=None, required_first=True,
                          column_padding=2, excluding=None):
+        """
+        Print the full usage for this Cluster.
+        :param app_name:       The application name.
+        :param description:    The application description.
+        :param app_version:    The application version.
+        :param custom_binary:  The custom binary.
+        :param required_first: Place the Required parameters first.
+        :param column_padding: The column padding.
+        :param excluding:      The columns to exclude.
+        """
         if excluding is None:
             excluding = {}
         sys.stdout.write(os.linesep+app_name)
