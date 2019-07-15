@@ -18,7 +18,7 @@ class Cluster:
         """
         Initialize the Cluster.
         """
-        self.default = lambda param: -1
+        self._default = lambda param: -1
 
     def add(self, parameter):
         """

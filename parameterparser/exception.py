@@ -1,7 +1,21 @@
 class ParseException(Exception):
     """
     Class used for representing Parse Exceptions.
+
+    Attributes:
+        :var parameter: The parameter that caused this Exception, if any.
+        :var message: The Message for this Exception.
+        :var code: The error code.
+
+    Constant Error Codes:
+        See: https://github.com/nathan-fiscaletti/parameterparser-py/blob/master/docs/Parsers.md#setting-error-handlers
+        :const INVALID_ARGUMENT_COUNT_ALIAS: 60001
+        :const INVALID_ARGUMENT_COUNT_PARAMETER: 60002
+        :const INVALID_ARGUMENT_COUNT_VARIADIC_ALIAS: 60003
+        :const INVALID_ARGUMENT_COUNT_VARIADIC_PARAMETER: 60004
+        :const MISSING_REQUIRED_ARGUMENT: 60005
     """
+
     # Error Codes
     INVALID_ARGUMENT_COUNT_ALIAS = 60001
     INVALID_ARGUMENT_COUNT_PARAMETER = 60002
@@ -9,15 +23,9 @@ class ParseException(Exception):
     INVALID_ARGUMENT_COUNT_VARIADIC_PARAMETER = 60004
     MISSING_REQUIRED_ARGUMENT = 60005
 
-    """
-    :var parameter: The parameter that caused this Exception, if any.
-    """
     parameter = None
-
-    """
-    :var message: The Message for this Exception.
-    """
     message = None
+    code = None
 
     def __init__(self, message, code, parameter=None):
         """
