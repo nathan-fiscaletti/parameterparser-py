@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [[ "$1" == "build" ]]; then
+    rm -rf ./dist/*
     python3 setup.py sdist bdist_wheel
     exit
 fi
