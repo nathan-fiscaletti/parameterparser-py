@@ -13,7 +13,7 @@ class Parameter:
         :var aliases: The aliases for this Parameter.
         :var parent: The parent Parameter for this Parameter, if any.
         :var description: The Description for this Parameter.
-        :var required: Whether or not this Parameter is required, default False.
+        :var required: Whether this Parameter is required, default False.
     """
     name = None
     prefix = None
@@ -76,8 +76,8 @@ class Parameter:
     def get_usage(self, encapsulate=True, with_aliases=True):
         """
         Retrieve the Usage for this Parameter as a String.
-        :param encapsulate: Whether or not to encapsulate the usage, defaults to True.
-        :param with_aliases: Whether or not to include aliases, defaults to True.
+        :param encapsulate: Whether to encapsulate the usage, defaults to True.
+        :param with_aliases: Whether to include aliases, defaults to True.
         :return: The usage for this Parameter.
         """
         usage = ""
@@ -91,7 +91,7 @@ class Parameter:
     def get_alias_usage(self, encapsulate=True):
         """
         Retrieve the Alias usage as a String.
-        :param encapsulate: Whether or not to encapsulate the usage, defaults to True.
+        :param encapsulate: Whether to encapsulate the usage, defaults to True.
         :return: The Alias usage as a String.
         """
         result = ""
@@ -100,7 +100,8 @@ class Parameter:
                 result = " (" if result == "" else result + ","
                 result = result + " " + prefix + alias
             else:
-                result = prefix + alias if result == "" else result + ", " + prefix + alias
+                result = prefix + alias \
+                    if result == "" else result + ", " + prefix + alias
         if encapsulate:
             result = result + ("" if result == "" else " )")
         return result

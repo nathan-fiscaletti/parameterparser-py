@@ -101,7 +101,11 @@ class Parser:
                 parameter = parameters[parameter_key]
                 for alias_prefix in parameter.aliases.keys():
                     alias_name = parameter.aliases[alias_prefix]
-                    alias_param = Parameter(alias_prefix, alias_name, parameter.closure)
+                    alias_param = Parameter(
+                        alias_prefix,
+                        alias_name,
+                        parameter.closure
+                    )
                     alias_param.parent = parameter
                     self.cluster.add(alias_param)
 
@@ -138,11 +142,13 @@ class Parser:
             self.__argv.append(parameter_str[1:])
             if len(argv) > 0:
                 parsed_part = argv.pop(0)
-                while parsed_part is not None and parsed_part[-1:] != quote_type:
+                while parsed_part is not None \
+                        and parsed_part[-1:] != quote_type:
                     self.__argv[len(self.__argv) - 1] += " " + parsed_part
                     parsed_part = argv.pop(0) if len(argv) > 0 else None
                 if parsed_part is not None:
-                    self.__argv[len(self.__argv) - 1] += " " + parsed_part[0:-1]
+                    self.__argv[len(self.__argv) - 1] \
+                        += " " + parsed_part[0:-1]
 
     def __check_validity_and_continue_parse(self):
         """
@@ -179,7 +185,9 @@ class Parser:
                             if alias_prefix + alias in self.__argv:
                                 alias_found = True
                         if not alias_found:
-                            self.invalid_param = parameter if self.invalid_param is None else self.invalid_param
+                            self.invalid_param = parameter \
+                                if self.invalid_param is None \
+                                else self.invalid_param
                             result = False
         return result
 
@@ -238,17 +246,21 @@ class Parser:
         """
         closure_arguments = []
         current_argument = 0
-        while current_argument < count and len(self.__argv) > (self.__cursor + 1):
+        while current_argument < count \
+                and len(self.__argv) > (self.__cursor + 1):
             closure_arguments.append(self.__argv[self.__cursor + 1])
             current_argument += 1
             self.__increment_cursor()
         if len(closure_arguments) == count:
-            name = parameter.name if not parameter.has_parent() else parameter.parent.name
+            name = parameter.name \
+                if not parameter.has_parent() \
+                else parameter.parent.name
             self.results[name] = parameter.closure(*closure_arguments)
         else:
             self.valid = False
             error = ParseException(
-                "Invalid argument count. Expecting " + str(count) + " but received "
+                "Invalid argument count. Expecting " +
+                str(count) + " but received "
                 + str(len(closure_arguments)) + ".",
                 ParseException.INVALID_ARGUMENT_COUNT_ALIAS
                 if parameter.has_parent()
@@ -272,7 +284,8 @@ class Parser:
         argument = None
         if available:
             argument = self.__argv[self.__cursor]
-        while available and argument is not None and not self.__prefix_exists(argument):
+        while available and argument is not None \
+                and not self.__prefix_exists(argument):
             closure_arguments.append(argument)
             self.__increment_cursor()
             available = len(self.__argv) > self.__cursor
@@ -280,12 +293,14 @@ class Parser:
             if available:
                 argument = self.__argv[self.__cursor]
         if len(closure_arguments) > 0:
-            name = parameter.name if not parameter.has_parent() else parameter.parent.name
+            name = parameter.name \
+                if not parameter.has_parent() else parameter.parent.name
             self.results[name] = parameter.closure(*closure_arguments)
         else:
             self.valid = False
             error = ParseException(
-                "Invalid argument count. Expecting 1+ but received " + str(len(closure_arguments)) + ".",
+                "Invalid argument count. Expecting 1+ but received " +
+                str(len(closure_arguments)) + ".",
                 ParseException.INVALID_ARGUMENT_COUNT_VARIADIC_ALIAS
                 if parameter.has_parent()
                 else ParseException.INVALID_ARGUMENT_COUNT_VARIADIC_PARAMETER,
@@ -330,7 +345,8 @@ class Parser:
         :return: The real name.
         """
         parameter = self.__get_parameter(parameter_str)
-        return parameter.name if not parameter.has_parent() else parameter.parent.name
+        return parameter.name \
+            if not parameter.has_parent() else parameter.parent.name
 
     def __get_parameter(self, parameter_str):
         """
@@ -343,7 +359,8 @@ class Parser:
         for prefix in self.cluster.prefixes.keys():
             if parameter_str[0:len(prefix)] == prefix:
                 parameter_str_without_prefix = parameter_str[len(prefix):]
-                if parameter_str_without_prefix in self.cluster.prefixes[prefix]:
+                if parameter_str_without_prefix \
+                        in self.cluster.prefixes[prefix]:
                     if last_prefix is None or len(last_prefix) < len(prefix):
                         last_prefix = prefix
                         parameter_parsed = parameter_str_without_prefix

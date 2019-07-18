@@ -6,7 +6,8 @@ pydoc parameterparser.element.
 
 i.e. pydoc parameterparser.cluster
 
-For full documentation see https://github.com/nathan-fiscaletti/parameterparser-py/
+For full documentation see:
+    https://github.com/nathan-fiscaletti/parameterparser-py/
 """
 from parameterparser.cluster import Cluster
 from parameterparser.exception import ParseException

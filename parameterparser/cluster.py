@@ -75,7 +75,11 @@ class Cluster:
             parameters = self.prefixes[prefix]
             keys = list(parameters.keys())
             if required_first:
-                keys = sorted(parameters.keys(), key=lambda x: parameters[x].required, reverse=True)
+                keys = sorted(
+                    parameters.keys(),
+                    key=lambda x: parameters[x].required,
+                    reverse=True
+                )
             for parameter_name in keys:
                 parameter = parameters[parameter_name]
                 if not parameter.has_parent():
@@ -99,7 +103,9 @@ class Cluster:
         if excluding is None:
             excluding = {}
         sys.stdout.write(os.linesep+app_name)
-        sys.stdout.write(("" if app_version is None else " " + app_version) + os.linesep)
+        sys.stdout.write(
+            ("" if app_version is None else " " + app_version) + os.linesep
+        )
         sys.stdout.write(os.linesep)
         if description is not None:
             sys.stdout.write("Description: "+os.linesep+os.linesep)
@@ -120,7 +126,8 @@ class Cluster:
                         n_val = style["fetch"](parameter)
                         n_val_size = len(n_val)
                         if n_val_size + column_padding > style["longest"]:
-                            usage_styles[style_name]["longest"] = n_val_size + column_padding
+                            usage_styles[style_name]["longest"] \
+                                = n_val_size + column_padding
                         usage_styles[style_name]["values"].append(n_val)
         sys.stdout.write("Parameters:"+os.linesep+os.linesep)
         header_format = "\t"
@@ -140,5 +147,9 @@ class Cluster:
             new_format += os.linesep
             parameter_format += new_format
 
-        sys.stdout.write((header_format+os.linesep) % tuple(column_names))
-        sys.stdout.write((parameter_format+os.linesep) % tuple(parameter_values))
+        sys.stdout.write(
+            (header_format+os.linesep) % tuple(column_names)
+        )
+        sys.stdout.write(
+            (parameter_format+os.linesep) % tuple(parameter_values)
+        )

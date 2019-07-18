@@ -8,7 +8,7 @@ class ParseException(Exception):
         :var code: The error code.
 
     Constant Error Codes:
-        See: https://github.com/nathan-fiscaletti/parameterparser-py/blob/master/docs/Parsers.md#setting-error-handlers
+        See: https://git.io/fj1DN
         :const INVALID_ARGUMENT_COUNT_ALIAS: 60001
         :const INVALID_ARGUMENT_COUNT_PARAMETER: 60002
         :const INVALID_ARGUMENT_COUNT_VARIADIC_ALIAS: 60003

@@ -1,7 +1,8 @@
 
 class UsageStyle:
     """
-    Used to configure what columns are displayed when cluster.print_full_usage is called.
+    Used to configure what columns are displayed
+    when cluster.print_full_usage is called.
     """
     @staticmethod
     def all(column_padding):
@@ -39,7 +40,10 @@ class UsageStyle:
             "description": {
                 "longest": 11 + column_padding,
                 "values": [],
-                "fetch": lambda parameter: "" if parameter.description is None else parameter.description
+                "fetch": lambda parameter: (
+                    "" if parameter.description is None
+                    else parameter.description
+                )
             },
             "required": {
                 "longest": 8 + column_padding,
