@@ -9,7 +9,8 @@
 
 [![PyPI version](https://badge.fury.io/py/parameterparser.svg)](https://badge.fury.io/py/parameterparser)
 [![PyCodeStyle](./stylebadge.svg)](./tests/latest.stylelog)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/parameterparser.svg)
+[![Downloads](https://pepy.tech/badge/parameterparser)](https://pepy.tech/project/parameterparser)
+[![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/parameterparser-py.svg)](https://github.com/nathan-fiscaletti/parameterparser-py/issues)
 ![PyPI - License](https://img.shields.io/pypi/l/parameterparser.svg)
 
 [Documentation](./docs/) - [Advanced Code Examples](./examples/readme.md) - [Looking for the PHP version?](https://github.com/nathan-fiscaletti/parameterparser)
@@ -64,4 +65,15 @@ else:
 ~/ python test.py -name 'Nathan Fiscaletti'
 
    Your name is Nathan Fiscaletti
+```
+
+### Development
+
+Before commiting anything, please create a pre-commit hook with the following content.
+
+This will ensure that the pycodestyle badge is properly updated.
+
+```bash
+#!/bin/bash
+python3 tests/style.py
 ```
