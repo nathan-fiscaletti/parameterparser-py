@@ -49,7 +49,7 @@ if not parser.is_valid():
     # Since it was not valid, output usage.
     parameters.print_full_usage(
         "Parameter Parser",
-        "An advanced parameter parser for PHP",
+        "An advanced parameter parser for Python",
         "v1.0.0"
     )
 else:
@@ -57,7 +57,7 @@ else:
     name = results['name']
 
     # Output the name
-    print("Your name is " . name . os.linesep)
+    print("Your name is " + name + os.linesep)
 ```
 
 ### Output
