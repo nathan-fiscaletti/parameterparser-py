@@ -2,7 +2,7 @@
 
 See: [parameterparser/parser.py](../parameterparser/parser.py)
 
-A Parser is an object that will parse the supplied argument array using the [Parameters](./Parameters.md) stored in a [Cluster](./Clusters.md). You can use any array of strings here, however it is most common to use the `$argv` property in PHP.
+A Parser is an object that will parse the supplied argument array using the [Parameters](./Parameters.md) stored in a [Cluster](./Clusters.md). You can use any array of strings here, however it is most common to use the `sys.argv` property in Python.
 
 ## Creating a Parser
 
