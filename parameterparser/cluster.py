@@ -118,12 +118,17 @@ class Cluster:
         for prefix in self.prefixes.keys():
             parameters = self.prefixes[prefix]
             for parameter_name in parameters.keys():
+                sys.stdout.write("parameter: " + parameter_name + "\n")
                 parameter = parameters[parameter_name]
+                print(parameter.name)
+                print(parameter.aliases)
                 if not parameter.has_parent():
                     parameter_count += 1
                     for style_name in usage_styles.keys():
                         style = usage_styles[style_name]
                         n_val = style["fetch"](parameter)
+                        if style_name == "aliases":
+                            sys.stdout.write("n_val: " + n_val + "\n")
                         n_val_size = len(n_val)
                         if n_val_size + column_padding > style["longest"]:
                             usage_styles[style_name]["longest"] \

@@ -15,13 +15,6 @@ class Parameter:
         :var description: The Description for this Parameter.
         :var required: Whether this Parameter is required, default False.
     """
-    name = None
-    prefix = None
-    closure = None
-    aliases = dict()
-    parent = None
-    description = None
-    required = False
 
     def __init__(self, prefix, name, closure):
         """
@@ -33,6 +26,10 @@ class Parameter:
         self.prefix = prefix
         self.name = name
         self.closure = closure
+        self.aliases = dict()
+        self.parent = None
+        self.description = None
+        self.required = False
 
     def has_parent(self):
         """

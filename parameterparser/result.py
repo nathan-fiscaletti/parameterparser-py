@@ -6,8 +6,6 @@ class Result:
         :var value: The value for this Result.
     """
     HALT_PARSE = "parameter_parser_halt_parser"
-    value = None
-    __is_halt = None
 
     @staticmethod
     def halt(value=HALT_PARSE):

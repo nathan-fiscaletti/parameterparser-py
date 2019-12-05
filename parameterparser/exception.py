@@ -23,10 +23,6 @@ class ParseException(Exception):
     INVALID_ARGUMENT_COUNT_VARIADIC_PARAMETER = 60004
     MISSING_REQUIRED_ARGUMENT = 60005
 
-    parameter = None
-    message = None
-    code = None
-
     def __init__(self, message, code, parameter=None):
         """
         Initialize this Exception.

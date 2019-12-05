@@ -16,14 +16,6 @@ class Parser:
         :var results: The results that have been accumulated after a parse.
         :var invalid_param: The parameter that invalidated this parser, if any.
     """
-    cluster = None
-    valid = True
-    error_handler = None
-    halted_by = None
-    results = {}
-    invalid_param = None
-    __cursor = 0
-    __argv = []
 
     def __init__(self, argv=None, cluster=None):
         """
@@ -31,6 +23,8 @@ class Parser:
         :param argv:    The string array to parse.
         :param cluster: The Cluster.
         """
+        self.error_handler = None
+        self.__argv = None
         self.cluster = Cluster()
         self.__initialize(argv, cluster)
 
