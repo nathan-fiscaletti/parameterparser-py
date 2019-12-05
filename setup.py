@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="parameterparser",
-    version="0.1.6",
+    version="0.1.7",
     author="Nathan Fiscaletti",
     author_email="nathan.fiscaletti@gmail.com",
     description="An advanced parameter parser for Python.",
